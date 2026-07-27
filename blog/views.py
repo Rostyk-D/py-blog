@@ -29,6 +29,16 @@ class PostDetailView(generic.DetailView):
     template_name = "blog/post_detail.html"
     context_object_name = "post"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        form_view = CommentaryCreateView()
+        form_view.request = self.request
+
+        context["form"] = form_view.get_form()
+
+        return context
+
 
 class CommentaryCreateView(LoginRequiredMixin, generic.CreateView):
     model = Commentary
@@ -38,14 +48,14 @@ class CommentaryCreateView(LoginRequiredMixin, generic.CreateView):
         form.instance.user = self.request.user
         form.instance.post = get_object_or_404(
             Post,
-            pk=self.kwargs["pk"]
+            pk=self.kwargs["pk"],
         )
         return super().form_valid(form)
 
     def get_success_url(self):
         return reverse(
             "blog:post-detail",
-            kwargs={"pk": self.object.post.pk}
+            kwargs={"pk": self.object.post.pk},
         )
 
 

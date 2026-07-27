@@ -3,17 +3,19 @@
 {% block title %}Home | Blog System{% endblock %}
 
 {% block content %}
+
   <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
       <h1 class="mb-1">Latest Posts</h1>
-      <p class="text-muted mb-0">Discover the latest posts from our community</p>
+      <p class="text-muted mb-0">
+        Discover the latest posts from our community
+      </p>
     </div>
   </div>
 
   {% for post in page_obj %}
     <div class="card mb-4 shadow-sm">
-      <div class="card-body">
-        <h2 class="card-title h4">{{ post.title }}</h2>
+      <div class="card-body"><h2 class="card-title h4">{{ post.title }}</h2>
 
         <div class="text-muted small mb-3">
           By <strong>{{ post.owner.username }}</strong>
@@ -23,19 +25,26 @@
         <p class="card-text">
           {{ post.content }}
         </p>
-        <a href="{% url 'blog:post-detail' pk=post.pk %}"
-            class="btn btn-outline-primary btn-sm">
-          Read more
-        </a>
+
+        <div class="d-flex justify-content-between align-items-center">
+      <span class="text-muted small">
+        Comments: {{ post.commentary_set.count }}
+      </span>
+
+          <a
+              href="{% url 'blog:post-detail' pk=post.pk %}"
+              class="btn btn-outline-primary btn-sm"
+          >
+            Read more
+          </a>
+        </div>
       </div>
     </div>
+
   {% empty %}
-    <div class="text-center py-5">
-      <h3 class="text-muted">No posts yet</h3>
+    <div class="text-center py-5"><h3 class="text-muted">No posts yet</h3>
       <p class="text-muted">
-        There are currently no posts to display.
-      </p>
-    </div>
+        There are currently no posts to display. </p></div>
   {% endfor %}
 
   {% if page_obj.has_other_pages %}
@@ -88,5 +97,7 @@
 
       </ul>
     </nav>
+
+
   {% endif %}
 {% endblock %}
