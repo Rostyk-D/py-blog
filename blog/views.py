@@ -23,6 +23,7 @@ def index(request):
         },
     )
 
+
 class PostDetailView(generic.DetailView):
     model = Post
     template_name = "blog/post_detail.html"
